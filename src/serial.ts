@@ -14,7 +14,11 @@ function write(buffer: Buffer): Promise<void> {
     });
 }
 
-const controller = new ProtocolController(write);
+async function close(): Promise<void> {
+    port.close()
+}
+
+const controller = new ProtocolController({ write, close });
 
 port.on('data', controller.onDataReceive.bind(controller));
 

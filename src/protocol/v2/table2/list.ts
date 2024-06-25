@@ -1,9 +1,13 @@
 import { AbstractCommand } from "../abstract";
+import { ConnectGetSupportFunctionTable2, ConnectRetSupportFunctionTable2 } from "./connect";
 import { PeriGetParam, PeriGetStatus, PeriNtfyExtendedParam, PeriNtfyParam, PeriRetParam, PeriRetStatus, PeriSetExtendedParam, PeriSetParam } from "./peri";
 import { CommandTable2 as Table } from "./table";
 import { VoiceGuidanceGetExtendedParam, VoiceGuidanceRetExtendedParam } from "./voiceguidance";
 
 export const table2list: Partial<Record<Table, typeof AbstractCommand>> = {
+    [Table.CONNECT_GET_SUPPORT_FUNCTION]: ConnectGetSupportFunctionTable2,
+    [Table.CONNECT_RET_SUPPORT_FUNCTION]: ConnectRetSupportFunctionTable2,
+
     [Table.PERI_GET_STATUS]: PeriGetStatus,
     [Table.PERI_RET_STATUS]: PeriRetStatus,
     [Table.PERI_GET_PARAM]: PeriGetParam,

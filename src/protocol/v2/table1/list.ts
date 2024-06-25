@@ -1,6 +1,6 @@
 import { AbstractCommand } from "../abstract";
 import { AudioGetParam, AudioGetStatus, AudioNtfyParam, AudioRetParam, AudioRetStatus, AudioSetParam } from "./audio";
-import { ConnectGetCapabilityInfo, ConnectGetProtocolInfo, ConnectRetCapabilityInfo, ConnectRetProtocolInfo } from "./connect";
+import { ConnectGetCapabilityInfo, ConnectGetProtocolInfo, ConnectGetSupportFunctionTable1, ConnectRetCapabilityInfo, ConnectRetProtocolInfo, ConnectRetSupportFunctionTable1 } from "./connect";
 import { EqEbbGetExtendedInfo, EqEbbGetParam, EqEbbGetStatus, EqEbbNtfyParam, EqEbbRetExtendedInfo, EqEbbRetParam, EqEbbRetStatus, EqEbbSetParam } from "./eqebb";
 import { LeaNtfyStatus } from "./lea";
 import { LogNtfyParam } from "./log";
@@ -15,6 +15,8 @@ export const table1list: Partial<Record<Table, typeof AbstractCommand>> = {
     [Table.CONNECT_RET_PROTOCOL_INFO]: ConnectRetProtocolInfo,
     [Table.CONNECT_GET_CAPABILITY_INFO]: ConnectGetCapabilityInfo,
     [Table.CONNECT_RET_CAPABILITY_INFO]: ConnectRetCapabilityInfo,
+    [Table.CONNECT_GET_SUPPORT_FUNCTION]: ConnectGetSupportFunctionTable1,
+    [Table.CONNECT_RET_SUPPORT_FUNCTION]: ConnectRetSupportFunctionTable1,
 
     [Table.POWER_GET_STATUS]: PowerGetStatus,
     [Table.POWER_RET_STATUS]: PowerRetStatus,

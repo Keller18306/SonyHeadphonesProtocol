@@ -1,5 +1,5 @@
 export enum FunctionsTable1 {
-    NO_USE = 0,
+    // NO_USE = 0,
     CONCIERGE_DATA = 16,
     CONNECTION_STATUS = 17,
     CODEC_INDICATOR = 18,

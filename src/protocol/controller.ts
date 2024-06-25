@@ -5,15 +5,22 @@ import { ProtocolStream } from "./stream";
 import { AbstractCommand, Command, ConnectGetProtocolInfo, ConnectRetProtocolInfo } from "./v2";
 
 type WriterFunction = (buffer: Buffer) => Promise<void>
+type CloseFunction = () => Promise<void>
+
+interface ProtocolControllerOptions {
+    write: WriterFunction,
+    close: CloseFunction
+}
+
 
 //Data -> Frames
 export class ProtocolController {
     private stream: ProtocolStream;
-    private write: WriterFunction;
+    private args: ProtocolControllerOptions;
     private sequence: Sequence;
 
-    constructor(writer: WriterFunction) {
-        this.write = writer;
+    constructor(args: ProtocolControllerOptions) {
+        this.args = args;
         this.stream = new ProtocolStream();
         this.sequence = new Sequence(this);
 
@@ -32,7 +39,11 @@ export class ProtocolController {
         console.log('Snd Frame', frame.toString())
         const buffer = frame.toRaw();
 
-        await this.write(buffer);
+        await this.args.write(buffer);
+    }
+
+    public async diconnect() {
+        await this.args.close()
     }
 
     public sendRawMessage(message: RawMessage) {
