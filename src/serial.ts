@@ -15,7 +15,7 @@ function write(buffer: Buffer): Promise<void> {
 }
 
 async function close(): Promise<void> {
-    port.close()
+    port.close();
 }
 
 const controller = new ProtocolController({ write, close });

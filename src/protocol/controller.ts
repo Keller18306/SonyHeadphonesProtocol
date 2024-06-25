@@ -43,7 +43,7 @@ export class ProtocolController {
     }
 
     public async diconnect() {
-        await this.args.close()
+        await this.args.close();
     }
 
     public sendRawMessage(message: RawMessage) {
