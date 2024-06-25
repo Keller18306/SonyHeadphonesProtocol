@@ -1,0 +1,6 @@
+export enum RawMessage {
+    MESSAGE_HEADER = 0x3e,
+    MESSAGE_TRAILER = 0x3c,
+    MESSAGE_ESCAPE = 0x3d,
+    MESSAGE_ESCAPE_MASK = 0b11101111
+}

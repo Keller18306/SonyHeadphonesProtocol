@@ -1,0 +1,9 @@
+Рут оболочка для Termux (/usr/bin/sudo):
+Заменить SU_BINARY_SEARCH=("/system/xbin/su" "/system/bin/su" на SU_BINARY_SEARCH=("/debug_ramdisk/su" "/system/bin/su")
+
+Запуск стриминга логов в WireShark (предвартильено врубить в параметрах разраба и перезапустить блютуз):
+adb shell su -c "'nc -s 127.0.0.1 -p 8872 -L system/bin/tail -f -c +0 /data/misc/bluetooth/logs/btsnoop_hci.log'"
+adb shell su -c "'nc -s 0.0.0.0 -p 8872 -L system/bin/tail -f -c +0 /data/misc/bluetooth/logs/btsnoop_hci.log'"
+
+Убить, если что-то пошло не так:
+fuser -k 8872/tcp

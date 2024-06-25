@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "moduleResolution": "Node",
+        "module": "CommonJS",
+        "strict": true,
+        "strictNullChecks": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "./build/",
+        "removeComments": true,
+        "lib": [
+            "DOM"
+        ],
+        "allowJs": true
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

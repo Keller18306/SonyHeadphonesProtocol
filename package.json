@@ -1,0 +1,14 @@
+{
+  "name": "sony-headphones-protocol",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "repository": "https://github.com/Keller18306/SonyHeadphonesProtocol",
+  "author": "Keller18306",
+  "license": "MIT",
+  "dependencies": {
+    "bluetooth-serial-port": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.19"
+  }
+}
