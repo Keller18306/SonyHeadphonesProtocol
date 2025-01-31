@@ -6,42 +6,7 @@
     <title>Serial</title>
 </head>
 <body>
-    <button onclick="run()">Test</button>
-    <script>
-        const run = async () => {
-            const port = await navigator.serial.requestPort({
-                allowedBluetoothServiceClassIds: ['956C7B26-D49A-4BA8-B03F-B17D393CB6E2'.toLowerCase()]
-            });
-
-            console.log(port)
-
-            await port.open({ baudRate: 9600 })
-
-            while (port.readable) {
-                console.log('readable', port.readable)
-
-                const reader = port.readable.getReader();
-                try {
-                    console.log('a')
-                    while (true) {
-                        const { value, done } = await reader.read();
-                        if (done) {
-                            console.log('reader canceled')
-                            break;
-                        }
-
-                        const str = new TextDecoder().decode(value);
-
-                        console.log(value, str);
-                    }
-                } catch (error) {
-                    console.error('error', error)
-                } finally {
-                    console.log('release')
-                    reader.releaseLock();
-                }
-            }
-        }
-    </script>
+    <script src="./dist/web.js"></script>
+    <button onclick="test()">Test</button>
 </body>
 </html>

@@ -5,10 +5,25 @@
   "repository": "https://github.com/Keller18306/SonyHeadphonesProtocol",
   "author": "Keller18306",
   "license": "MIT",
+  "scripts": {
+    "build": "webpack -c webpack.config.ts",
+    "dev": "webpack serve -c webpack.config.ts"
+  },
   "dependencies": {
-    "bluetooth-serial-port": "^3.0.2"
+    "bluetooth-serial-port": "^3.0.2",
+    "buffer": "^6.0.3",
+    "stream-browserify": "^3.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.11.19"
+    "@types/node": "^20.11.19",
+    "@types/w3c-web-serial": "^1.0.7",
+    "@types/web-bluetooth": "^0.0.20",
+    "@types/webpack": "^5.28.5",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
   }
 }

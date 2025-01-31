@@ -4,7 +4,7 @@ import { BasicCommand } from "../../../basic";
 import { DeviceInfoType, GuidanceCategory } from "../enum";
 
 export class ConnectInfoInstruction extends BasicCommand {
-    public type: DeviceInfoType = DeviceInfoType.INSTRUCTION_GUIDE;
+    public type: DeviceInfoType.INSTRUCTION_GUIDE = DeviceInfoType.INSTRUCTION_GUIDE;
 
     public static fromBuffer(reader: ReadBuffer): ConnectInfoInstruction {
         const categories: GuidanceCategory[] = [];

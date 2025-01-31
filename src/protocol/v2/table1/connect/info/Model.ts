@@ -4,7 +4,7 @@ import { BasicCommand } from "../../../basic";
 import { DeviceInfoType, ModelColor, ModelSeries } from "../enum";
 
 export class ConnectInfoModel extends BasicCommand {
-    public type: DeviceInfoType = DeviceInfoType.SERIES_AND_COLOR_INFO;
+    public type: DeviceInfoType.SERIES_AND_COLOR_INFO = DeviceInfoType.SERIES_AND_COLOR_INFO;
 
     public static fromBuffer(reader: ReadBuffer): ConnectInfoModel {
         return new ConnectInfoModel(

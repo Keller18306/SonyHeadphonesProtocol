@@ -1,2 +1,3 @@
+export * from './api';
+export * from './connector';
 export * from './protocol';
-export * from './serial';

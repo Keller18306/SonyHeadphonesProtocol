@@ -1,49 +1,34 @@
+import { IBluetoothConnector } from "../connector";
 import { Frame, FrameDataType } from "./frame";
 import { RawMessage } from "./raw";
 import { Sequence } from "./sequence";
 import { ProtocolStream } from "./stream";
-import { AbstractCommand, Command, ConnectGetProtocolInfo, ConnectRetProtocolInfo } from "./v2";
-
-type WriterFunction = (buffer: Buffer) => Promise<void>
-type CloseFunction = () => Promise<void>
-
-interface ProtocolControllerOptions {
-    write: WriterFunction,
-    close: CloseFunction
-}
-
+import { AbstractCommand, Command } from "./v2";
 
 //Data -> Frames
 export class ProtocolController {
     private stream: ProtocolStream;
-    private args: ProtocolControllerOptions;
+    private connector: IBluetoothConnector;
     private sequence: Sequence;
 
-    constructor(args: ProtocolControllerOptions) {
-        this.args = args;
+    constructor(connector: IBluetoothConnector) {
+        this.connector = connector;
         this.stream = new ProtocolStream();
         this.sequence = new Sequence(this);
 
-        this.stream.on('message', this.onFrameReceived.bind(this))
-    }
-
-    public async init() {
-        //send init
-
-        const response = await this.invokeAndReceive(
-            ConnectRetProtocolInfo, new ConnectGetProtocolInfo()
-        );
+        this.connector.on('data', this.onDataReceive.bind(this));
+        this.stream.on('message', this.onFrameReceived.bind(this));
     }
 
     public async sendFrameImmediatly(frame: Frame) {
-        console.log('Snd Frame', frame.toString())
+        // console.log('Snd Frame', frame.toString())
         const buffer = frame.toRaw();
 
-        await this.args.write(buffer);
+        await this.connector.write(buffer);
     }
 
     public async diconnect() {
-        await this.args.close();
+        await this.connector.close();
     }
 
     public sendRawMessage(message: RawMessage) {
@@ -58,8 +43,8 @@ export class ProtocolController {
         return this.sendRawMessage(message);
     }
 
-    public invokeAndReceive<W extends typeof AbstractCommand, T = InstanceType<W>>(waitFor: W, command: AbstractCommand): Promise<T> {
-        const promise = new Promise<T>(resolve => {
+    public invokeAndReceive<W extends typeof AbstractCommand, T = InstanceType<W>>(waitFor: W, command: AbstractCommand): Promise<NonNullable<T>> {
+        const promise = new Promise<NonNullable<T>>(resolve => {
             const stream = this.stream;
 
             function receive(command: T) {
@@ -78,13 +63,35 @@ export class ProtocolController {
         return promise;
     }
 
+    public invokeAndFilter<W extends typeof AbstractCommand, T = InstanceType<W>, R = T>(filter: ((command: T) => R), command: AbstractCommand): Promise<NonNullable<R>> {
+        const promise = new Promise<NonNullable<R>>(resolve => {
+            const stream = this.stream;
+
+            function receive(command: T) {
+                const result = filter(command);
+
+                if (result) {
+                    return resolve(result);
+                }
+
+                return;
+            }
+
+            stream.on('command', receive);
+        });
+
+        this.invoke(command);
+
+        return promise;
+    }
+
     public onDataReceive(data: Buffer) {
         this.stream.emit('data', data);
     }
 
     private onFrameReceived(rawFrame: Buffer) {
         const frame = Frame.fromRaw(rawFrame);
-        console.log('Rcv Frame', frame.toString());
+        // console.log('Rcv Frame', frame.toString());
 
         if (frame.dataType === FrameDataType.ACK) {
             return this.sequence.receiveAck(frame.sequenceNumber);
